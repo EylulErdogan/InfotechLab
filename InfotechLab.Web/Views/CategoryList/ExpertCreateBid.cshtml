@@ -1,0 +1,41 @@
+﻿@using InfotechLab.Entities;
+@{
+	Layout = "_Layout";
+}
+
+@model Bid
+
+<div class="col-lg-4 order-2 order-lg-0">
+	<aside class="blog-sidebar">
+		<div class="widget mb-40">
+			<div class="single-sidebar white-bg">
+				<div class="sidebar-title mb-25">
+					<div>
+						<form asp-controller="CategoryList" asp-action="ExpertCreateBid" method="post">
+							<input type="text" asp-for="Id" hidden>
+							<input type="text" asp-for="UserId" hidden>
+							<input type="text" asp-for="UserCategoryId" hidden>
+
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<label>Teklif Fiyatı</label>
+									<input type="text" asp-for="Price" placeholder="Fiyat">
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<label>Tahmini Bitiş Tarihi</label>
+
+									<input type="date" asp-for="FinishDate" value="2023-07-20"
+			 min="2023-07-20" max="2024-01-01" placeholder="Tahmini Tamamlama Tarihi">
+								</div>
+							</div>
+							<button class="btn red-btn">Teklif Ver</button>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</aside>
+</div>

@@ -1,0 +1,52 @@
+﻿@model LoginViewModel
+@{
+    Layout = "_Layout";
+}
+    <!-- main-area -->
+<main>
+
+    <!-- support-area -->
+    <!DOCTYPE html>
+    <html>
+    <head>
+	    <title>Giriş Yap</title>
+	    <link rel="stylesheet" href="styles.css"> 
+    </head>
+    <body>
+    <div class="support-area support-bg pt-110 pb-120">
+	    <div class="container">
+		    <div class="row justify-content-center">
+			    <div class="col-xl-7 col-lg-10">
+				    <div class="s-section-title text-center mb-60">
+					    <h2>Giriş Yap</h2>
+				    </div>
+			    </div>
+		    </div>
+		    <div class="row justify-content-center">
+			    <div class="col-lg-10">
+				    <div class="support-form text-center">
+					    <form asp-controller="Authentication" asp-action="Login" method="post">
+						    <div class="row justify-content-center"> 
+							    <div class="col-md-6">
+								    <input type="text" asp-for="Email" placeholder="Email *">
+							    </div>
+						    </div> 
+						    <div class="row justify-content-center">
+							    <div class="col-md-6">
+								    <input type="password" asp-for="Password" placeholder="Şifre">
+							    </div>
+						    </div>
+						    <button class="btn red-btn">Giriş Yap</button>
+
+					    </form>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+    </div>
+    </body>
+    </html>
+
+    <!-- support-area-end -->
+</main>
+<!-- main-area-end -->

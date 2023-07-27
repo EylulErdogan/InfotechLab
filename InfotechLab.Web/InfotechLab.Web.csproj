@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\.vs\VSWorkspaceState.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\.vs\slnx.sqlite" />
+    <None Include="wwwroot\.vs\Transprk\config\applicationhost.config" />
+    <None Include="wwwroot\.vs\Transprk\FileContentIndex\afdb1ea5-38ad-47b9-a59f-68d00ab93596.vsidx" />
+    <None Include="wwwroot\.vs\Transprk\FileContentIndex\read.lock" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InfotechLab.Business\InfotechLab.Business.csproj" />
+    <ProjectReference Include="..\InfotechLab.Data\InfotechLab.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\.vs\Transprk\FileContentIndex\merges\" />
+    <Folder Include="wwwroot\.vs\Transprk\v17\" />
+  </ItemGroup>
+
+</Project>

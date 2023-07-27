@@ -1,0 +1,23 @@
+﻿@model IList<InfotechLab.Entities.Category>
+<!-- category-area -->
+<section class="category-area">
+	<div class="container">
+		<div class="category-bg">
+			<div class="row">
+				<div class="col-12">
+					<div class="category-list">
+						<ul>
+							@foreach (var category in @Model)
+							{
+								<li>
+									@Html.ActionLink(category.Name,"Index","CategoryList", new {id = category.Id})
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- category-area-end -->

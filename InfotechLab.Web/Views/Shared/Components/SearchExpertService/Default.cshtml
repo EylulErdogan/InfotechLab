@@ -1,0 +1,99 @@
+﻿@model SearchExpertServiceViewModel
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content fare-rate-modal">
+			<ul class="nav nav-tabs setup-panel">
+				<li class="nav-item single-steps">
+					<a class="nav-link btn-amber" href="#step-1">İstediğiniz Konumu Seçin</a>
+				</li>
+			</ul>
+			<form asp-controller="CategoryList" asp-action="SearchExpertService" method="post">
+				<div class="single-setup" id="step-1">
+					<div class="fare-rate-tab-content">
+						<div class="modal-shipping-details">
+							<div class="shipping-details-info">
+								<div class="single-shipping-details-box">
+									<label for="city">İl Seçiniz</label>
+									<select class="custom-select" id="city" asp-for="CityId">
+									</select>
+								</div>
+								<div class="single-shipping-details-box shipping-transport">
+									<label for="county">İlçe Seçiniz</label>
+									<select class="custom-select" id="county" asp-for="CountyId">
+									</select>
+								</div>
+								<div class="single-shipping-details-box shipping-product">
+									<label for="category">Kategori Seçiniz</label>
+									<select class="custom-select" id="category" asp-for="CategoryId">
+									</select>
+								</div>
+							</div>
+						</div>
+						<button class="btn f-right nextBtn-2 btn-success" type="submit">Ara</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function () {
+		var city = $('#city');
+		city.append($("<option></option>").val('').html('Lütfen Şehir Seçiniz'));
+		$.ajax({
+			url: window.location.origin + '/CategoryList/GetCities',
+			type: 'GET',
+			dataType: 'json',
+			success: function (d) {
+				$.each(d, function (i, c) {
+					city.append($("<option></option>").val(c.id).html(c.name));
+				});
+			},
+			error: function () {
+				alert('Error!');
+			}
+		});
+
+		//county Bind By city id
+		$("#city").change(function () {
+			var cityId = parseInt($(this).val());
+			if (!isNaN(cityId)) {
+				var county = $('#county');
+				county.append($("<option></option>").val('').html('Lütfen Bekleyin ...'));
+				debugger;
+				$.ajax({
+					url: window.location.origin + '/CategoryList/GetCounties',
+					type: 'GET',
+					dataType: 'json',
+					data: { cityId: cityId },
+					success: function (d) {
+						county.empty(); // Clear the plese wait
+						county.append($("<option></option>").val('').html('Lütfen İlçe Seçiniz'));
+						$.each(d, function (i, c) {
+							county.append($("<option></option>").val(c.id).html(c.name));
+						});
+					},
+					error: function () {
+						alert('Error!');
+					}
+				});
+			}
+		});
+		var category = $('#category');
+		category.append($("<option></option>").val('').html('Lütfen Kategori Seçiniz'));
+		$.ajax({
+			url: window.location.origin + '/CategoryList/GetCategories',
+			type: 'GET',
+			dataType: 'json',
+			success: function (d) {
+				$.each(d, function (i, c) {
+					category.append($("<option></option>").val(c.id).html(c.name));
+				});
+			},
+			error: function () {
+				alert('Error!');
+			}
+		});
+	});
+</script>

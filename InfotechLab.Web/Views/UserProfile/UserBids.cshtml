@@ -1,0 +1,65 @@
+﻿@model IList<InfotechLab.Entities.Bid>
+@{
+	Layout = "_Layout";
+}
+<div class="col">
+	<aside class="blog-sidebar">
+		<div class="widget mb-40">
+			<div class="single-sidebar white-bg">
+				<div class="sidebar-title mb-25">
+					<h3>Teklifler</h3>
+				</div>
+				<div class="cat-list">
+					<ul class="row d-flex">
+						@foreach (var item in Model)
+						{
+							<li class="col-4 p-2" >
+								<div class = "w-100 h-100" style="border: 1px solid black">
+
+								<div class="row justify-content-center">
+									<div class="col-md-6">
+										@item.CreatedDate
+									</div>
+									@if (item.Price is not null)
+									{
+										<div class="col-md-6">
+											@item.Price
+										</div>
+									}
+
+								</div>
+								<div class="row justify-content-center">
+									<div class="col">
+										@item.Description
+									</div>
+								</div>
+
+								@if (@item.IsAccepted == false)
+								{
+									<div class="row justify-content-center">
+										<div class="col-md-6">
+											Teklif Beklemede
+										</div>
+									</div>
+								}
+								else
+								{
+									<div class="row justify-content-center">
+										<div class="col-md-6">
+											Teklif Kabul Edildi
+										</div>
+									</div>
+								}
+								@if (@item.Price is not null && @item.IsAccepted == false)
+								{
+									@Html.ActionLink("Kabul Et","AcceptBid","CategoryList", new {id = item.Id},new {@class = "btn red-btn"})
+								}
+					</div>
+					</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</aside>
+</div>

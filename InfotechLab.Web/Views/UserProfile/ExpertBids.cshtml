@@ -1,0 +1,48 @@
+﻿@using InfotechLab.Entities;
+@model IList<InfotechLab.Entities.Bid>
+@{
+	Layout = "_Layout";
+}
+<div class="col-lg-4 order-2 order-lg-0">
+	<aside class="blog-sidebar">
+		<div class="widget mb-40">
+			<div class="single-sidebar white-bg">
+				<div class="sidebar-title mb-25">
+					<h3>Teklifler</h3>
+				</div>
+				<div class="cat-list">
+					<ul>
+						@foreach (var item in Model)
+						{
+							<li>
+								<div class="row justify-content-center">
+									<div class="col-md-6">
+										@item.CreatedDate
+									</div>
+									@if (item.Price is not null)
+									{
+										<div class="col-md-6">
+											@item.Price
+										</div>
+									}
+
+								</div>
+								<div class="row justify-content-center">
+									<div class="col">
+										@item.Description
+									</div>
+								</div>
+
+								<div class="row justify-content-center">
+									<div class="col-md-6">
+										@Html.ActionLink("Teklif Ver","ExpertCreateBid","CategoryList",new {bidId = item.Id},new{@class = "btn red-btn"})
+									</div>
+								</div>
+							</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</aside>
+</div>

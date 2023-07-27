@@ -1,0 +1,190 @@
+﻿@{
+	Layout = "_Layout";
+}
+@model UserModel
+<!-- main-area -->
+<main>
+
+	<!-- support-area -->
+	<div class="support-area support-bg pt-110 pb-120">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-7 col-lg-10">
+					<div class="s-section-title text-center mb-60">
+						<h2>PROFİL</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<div class="support-form text-center">
+						@if (!String.IsNullOrEmpty(ViewBag.Error))
+						{
+							<div style="color:red">@ViewBag.Error</div>
+						}
+						<form asp-controller="UserProfile" asp-action="Index" method="post">
+							<input type="text" asp-for="Id" hidden>
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<input type="text" asp-for="FirstName" placeholder="İsim">
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<input type="text" asp-for="LastName" placeholder="Soyisim">
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<input type="text" asp-for="Email" placeholder="Email *">
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<input type="date" asp-for="BirthOfDate" value="1990-01-01"
+			 min="1900-01-01" max="2010-01-01" placeholder="Doğum Tarihi">
+								</div>
+							</div>
+
+							<div class="row justify-content-center mb-5">
+								<div class="col-md-6">
+									<label for="city">İl Seçiniz</label>
+									<select class="custom-select" id="cityR" asp-for="CityId">
+									</select>
+								</div>
+							</div>
+							<div class="row justify-content-center mb-5">
+								<div class="col-md-6">
+									<label for="county">İlçe Seçiniz</label>
+									<select class="custom-select" id="countyR" asp-for="CountyId">
+									</select>
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-md-6">
+									<textarea asp-for="Address" rows="2" placeholder="Adres"> </textarea>
+								</div>
+							</div>
+							@if (Model.IsExpert)
+							{
+								<div class="row justify-content-center">
+									<div class="col-md-6">
+										<textarea asp-for="Description" rows="2" placeholder="Açıklama"> </textarea>
+									</div>
+								</div>
+								<div class="row justify-content-center mb-5">
+									<div class="col-md-6">
+										<label for="category">Kategori Seçiniz</label>
+										<select class="custom-select" id="categoryR" asp-for="CategoryIds" multiple>
+										</select>
+									</div>
+								</div>
+								<input type="checkbox" asp-for="IsExpert" hidden>
+								@Html.ActionLink("Hizmet Taleplerim", "ExpertBids", "UserProfile", null, new { @class = "btn" })
+								<button class="btn red-btn">Güncelle</button>
+							}
+							else
+							{
+								@Html.ActionLink("Hizmet Taleplerim", "UserBids", "UserProfile", null, new { @class = "btn" })
+							<button class="btn red-btn">Güncelle</button>
+							}
+							
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- support-area-end -->
+</main>
+<script>
+	$(document).ready(function () {
+		$.ajax({
+			url: window.location.origin + '/CategoryList/GetUserCityCountyAndCategoryId',
+			type: 'GET',
+			dataType: 'json',
+			success: function (d) {
+				let userId = d.userId;
+				let userCityId = d.cityId;
+				let userCountyId = d.countyId;
+				let userCategoryIds = d.categoryIds;
+				var city = $('#cityR');
+				city.append($("<option></option>").val(0).html('Lütfen Şehir Seçiniz'));
+				$.ajax({
+					url: window.location.origin + '/CategoryList/GetCities',
+					type: 'GET',
+					dataType: 'json',
+					success: function (d) {
+						$.each(d, function (i, c) {
+							if (c.id == userCityId) {
+								city.append($("<option selected></option>").val(c.id).html(c.name));
+							} else {
+								city.append($("<option></option>").val(c.id).html(c.name));
+							}
+						});
+						city.val(userCityId).change()
+					},
+					error: function () {
+						alert('Error!');
+					}
+				});
+
+				//county Bind By city id
+				$("#cityR").change(function () {
+					var cityId = userCityId ? userCityId : parseInt($(this).val());
+					if (!isNaN(cityId)) {
+						var county = $('#countyR');
+						county.append($("<option></option>").val(0).html('Lütfen Bekleyin ...'));
+						$.ajax({
+							url: window.location.origin + '/CategoryList/GetCounties',
+							type: 'GET',
+							dataType: 'json',
+							data: { cityId: cityId },
+							success: function (d) {
+								county.empty(); // Clear the plese wait
+								county.append($("<option></option>").val(0).html('Lütfen İlçe Seçiniz'));
+								$.each(d, function (i, c) {
+									if (c.id == userCountyId) {
+										county.append($("<option selected></option>").val(c.id).html(c.name));
+									} else {
+										county.append($("<option></option>").val(c.id).html(c.name));
+									}
+								});
+							},
+							error: function () {
+								alert('Error!');
+							}
+						});
+					}
+				});
+
+				var category = $('#categoryR');
+				$.ajax({
+					url: window.location.origin + '/CategoryList/GetCategories',
+					type: 'GET',
+					dataType: 'json',
+					data: { userId: userId, },
+					success: function (d) {
+						$.each(d, function (i, c) {
+							if (userCategoryIds.some(x => c.id == x)) {
+								category.append($("<option selected></option>").val(c.id).html(c.name));
+							} else {
+								category.append($("<option></option>").val(c.id).html(c.name));
+							}
+						});
+					},
+					error: function () {
+						alert('Error!');
+					}
+				});
+			},
+			error: function () {
+				alert('Error!');
+			}
+		});
+
+
+	});
+</script>
+<!-- main-area-end -->

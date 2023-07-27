@@ -1,0 +1,43 @@
+﻿	<!-- header-start -->
+<header>
+	<div id="header-sticky" class="main-header">
+		<div class="container-fluid header-container-p">
+			<div class="row align-items-center">
+				<div class="col-lg-3 col-md-6">
+					@Html.ActionLink("AnaSayfa", "Index", "Home", null, new { @class = "btn" })
+				</div>
+				<div class="col-lg-9 col-md-6 d-none d-md-block">
+					<div class="menu-area">
+						<div class="header-btn">
+							@if (string.IsNullOrEmpty(ViewBag.Name))
+							{
+								@Html.ActionLink("Giriş Yap", "Login", "Authentication", null, new { @class = "btn mr-2" })
+								@Html.ActionLink("Kayıt Ol", "Register", "Authentication", null, new { @class = "btn red-btn" })
+							}
+							else
+							{
+								<div>@ViewBag.Name</div>
+								@if (@ViewBag.IsExpert)
+								{
+									@Html.ActionLink("Hizmet Taleplerim", "ExpertBids", "UserProfile", null, new { @class = "btn" })
+								}
+								else
+								{
+									@Html.ActionLink("Hizmet Taleplerim", "UserBids", "UserProfile", null, new { @class = "btn" })
+								}
+								@Html.ActionLink("Profil", "Index", "UserProfile", new {userId = ViewBag.UserId}, new { @class = "btn mr-2" })
+								@Html.ActionLink("Çıkış", "Exit", "Authentication", null, new { @class = "btn red-btn" })
+							}
+							<a href="#" class="btn ml-5" data-toggle="modal" data-target="#exampleModalLong"><img src="/img/icon/calculator-symbols.png" alt="icon">Hizmet için İl/İlçe Seç</a>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal -->
+			@await Component.InvokeAsync("SearchExpertService")
+		</div>
+	</div>
+</header>
+
+<!-- header-start-end -->

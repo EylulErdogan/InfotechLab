@@ -1,0 +1,35 @@
+﻿@using InfotechLab.Entities;
+@{
+	Layout = "_Layout";
+}
+
+@model Bid
+
+
+<div class="col-lg-4 order-2 order-lg-0">
+	<aside class="blog-sidebar">
+		<div class="widget mb-40">
+			<div class="single-sidebar white-bg">
+				<div class="sidebar-title mb-25">
+
+					<div>
+						<form asp-controller="CategoryList" asp-action="CreateBid" method="post">
+							<input type="text" asp-for="Id" hidden>
+							<input type="text" asp-for="UserId" hidden>
+							<input type="text" asp-for="UserCategoryId" hidden>
+
+							<div class="row justify-content-center">
+								<div class="col-md-10">
+									<textarea asp-for="Description" rows="2" placeholder="Hizmet Detayını Açıklayınız"> </textarea>
+								</div>
+							</div>
+							<button class="btn red-btn">Teklif Al</button>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</aside>
+</div>
+
